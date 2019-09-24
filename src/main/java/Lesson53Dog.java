@@ -1,29 +1,37 @@
 /*
-"2. Implement the method fight() depending on weight, strength and age of the boxer:
-You should write dependency by yourself. The method should return true or false if our boxer won or lost.
+"3. Create a class Dog.
+The dog should have a name and an age (private).
+Create getters and setter for all the fields."
 */
 
-public class Lesson53 {
+public class Lesson53Dog {
     private int age;
-    private int weight;
-    private int strength;
-
-    private Lesson53(int age, int weight, int strength) {
-        this.age = age;
-        this.weight = weight;
-        this.strength = strength;
-    }
-
-    private boolean fight(Lesson53 anotherBoxerLesson52) {
-        return this.strength > anotherBoxerLesson52.strength &&
-                this.age < anotherBoxerLesson52.age &&
-                this.weight < anotherBoxerLesson52.weight;
-    }
+    private String name;
 
     public static void main(String[] args) {
-        Lesson53 ourBoxer = new Lesson53(18, 78, 123);
-        Lesson53 newBoxer = new Lesson53(19, 84, 100);
-        boolean check = ourBoxer.fight(newBoxer);
-        System.out.println(check);
+
+        Lesson53Dog dog = new Lesson53Dog();
+        dog.setName("2Zik");
+        dog.setAge(1);
+        if (dog.getAge() > 0 && dog.getName() != null)
+            System.out.println("The name is " + dog.getName() + "\nThe age is " + dog.getAge());
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    private void setAge(int age) {
+        if (age > 0) this.age = age;
+        else System.out.println("WRONG age");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    private void setName(String name) {
+        if (name != null) this.name = name;
+        else System.out.println("WRONG name");
     }
 }
