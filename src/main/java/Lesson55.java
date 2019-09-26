@@ -3,12 +3,13 @@
  */
 public class Lesson55 {
     public static void main(String[] args) {
+
     }
 
     public static class Cat {
-        String name;
-        int age;
-        int weight;
+        private String name;
+        private int age;
+        private int weight;
 
         private Cat(String name, int age, int weight) {
             this.name = name;
@@ -16,7 +17,7 @@ public class Lesson55 {
             this.weight = weight;
         }
 
-        private String getName() {
+        public String getName() {
             return name;
         }
 
@@ -24,7 +25,7 @@ public class Lesson55 {
             this.name = name;
         }
 
-        private int getAge() {
+        public int getAge() {
             return age;
         }
 
