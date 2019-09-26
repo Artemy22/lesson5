@@ -14,11 +14,9 @@ public class Lesson57Vehicle {
     private int fullTank;
     private int maxSpeed;
     private int currentSpeed;
-    private long startTime;
-    private long finishTime;
     private int currentDistance;
-    private long currentTime;
     private double carCondition = 100;
+    protected int gear = 0;
 
     Lesson57Vehicle(String name, int tankSize, int maxSpeed) {
         this.name = name;
@@ -27,13 +25,50 @@ public class Lesson57Vehicle {
     }
 
     public static void main(String[] args) throws InterruptedException {
+
         Lesson57Vehicle newCar = new Car("Hooyota", 75, 240);
-        newCar.move(150, 300);
+        newCar.move(90, 300);
         System.out.println("\n");
+        newCar.upGear();
+        System.out.println("Gear is up. Current speed: " + newCar.getCurrentSpeed());
+        newCar.upGear();
+        System.out.println("Gear is up. Current speed: " + newCar.getCurrentSpeed());
+        newCar.downGear();
+        System.out.println("Gear is down. Current speed: " + newCar.getCurrentSpeed());
         newCar.stop();
         System.out.println("\n");
-        Car newCarSecond = new Car("Hreno", 45, 175);
-        newCarSecond.move(65, 340);
+
+
+        Car newCarSecond = new Car("Mamaz", 450, 110);
+        newCarSecond.move(65, 3340);
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.upGear();
+        System.out.println("Gear is up to " + newCarSecond.gear + ". Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed() + " gear: " + newCarSecond.gear);
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed());
+        newCarSecond.downGear();
+        System.out.println("Gear is down. Current speed: " + newCarSecond.getCurrentSpeed() + " gear: " + newCarSecond.gear);
         System.out.println("\n");
         newCarSecond.stop();
         System.out.println("\n");
@@ -46,7 +81,7 @@ public class Lesson57Vehicle {
         System.out.println("The call to service was successful.\n" + getName() + " car tank is full.\n");
     }
 
-    private int getCurrentSpeed() {
+    int getCurrentSpeed() {
         return currentSpeed;
     }
 
@@ -70,12 +105,14 @@ public class Lesson57Vehicle {
         if (velocity != 0 && direction != 0) {
             if (direction < getTankSize() * 10) {
                 if (velocity <= getMaxSpeed() && velocity <= 100) {
+                    this.gear++;
                     this.fullTank = getTankSize();
                     this.currentDistance = direction;
                     this.currentSpeed = velocity;
                     System.out.println("You car: " + getName() + " is moving with speed: " + velocity + " kph \nYou are going to drive: " + direction + " km\nIt takes you about: " + (int) ((double) direction / velocity * 60) + " min" + "\nJust for case your max distance: " + getTankSize() * 100 / 10 + " km");
 
                 } else if (velocity <= getMaxSpeed() && velocity >= 100) {
+                    this.gear++;
                     this.fullTank = getTankSize();
                     this.currentDistance = direction;
                     this.currentSpeed = velocity;
@@ -87,9 +124,27 @@ public class Lesson57Vehicle {
             System.out.println("The value shouldn't equal 0");
     }
 
+    void upGear() {
+        if (this.gear < 7 && this.currentSpeed <= this.maxSpeed) {
+            this.gear++;
+            this.currentSpeed += this.maxSpeed / 7;
+        } else System.out.println("The gear is already Max");
+    }
+
+    void downGear() {
+        if (this.gear > 0 && this.currentSpeed > 0) {
+            this.gear--;
+            this.currentSpeed -= this.maxSpeed / 7;
+        } else if (this.gear == 0 && this.currentSpeed == 0) {
+            stop();
+            System.out.println("The gear is already Min (0). Be attentive it's not safe to drive with no gear");
+        }
+    }
+
     protected void stop() {
 
         if (getCurrentSpeed() <= 100) {
+            this.gear = 0;
             this.carCondition -= (double) getCurrentDistance() / 1000000;
             this.tankSize -= (getCurrentDistance() / 10);
             this.currentSpeed = 0;
@@ -99,6 +154,7 @@ public class Lesson57Vehicle {
                 System.out.println("You had better call the service, you almost have no fuel");
             }
         } else if (getCurrentSpeed() > 100) {
+            this.gear = 0;
             this.carCondition -= (double) getCurrentDistance() / 1010101;
             this.currentSpeed = 0;
             this.tankSize -= (getCurrentDistance() / 7);
@@ -114,6 +170,5 @@ public class Lesson57Vehicle {
         Car(String name, int tankSize, int maxSpeed) {
             super(name, tankSize, maxSpeed);
         }
-
     }
 }
