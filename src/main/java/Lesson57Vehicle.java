@@ -1,5 +1,3 @@
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
-
 /*
 "7. Start with a base class of a Vehicle, then create a Car class that inherits from this base class.
     Finally, create another class, a specific type of Car that inherits from the Car class.
@@ -28,6 +26,7 @@ public class Lesson57Vehicle {
 
         Lesson57Vehicle newCar = new Car("Hooyota", 75, 240);
         newCar.move(124);
+        newCar.move(568);
         System.out.println("\n");
         newCar.upGear();
         System.out.println("Gear is up to " + newCar.getGear() + ". Current speed: " + newCar.getCurrentSpeed());
