@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
-
 /*
 "8*. Write a project named ""Remote Device"". Create a class ""RemoteController""
 which will be simulation the real one to control the TV. Create interfaces Device and Volume.
@@ -14,21 +12,27 @@ Write a class RemoteController to control your TV.
 Example of the structure in the requirements.
 "
  */
-public class Lesson58 {
+public class Lesson58RemoteController {
     public static void main(String[] args) {
-        Lesson58.TV Philips = new TV("PhilipsSmartTV", 12);
-        TV.RemoteController newController = new TV.RemoteController();
-        System.out.println(Philips.isOn);
-        Philips.powerOn();
-        System.out.println("Device is turn on");
+
+        TV myTVPhilips = new TV(7, "Hooilips");
+        myTVPhilips.getModelName();
+        myTVPhilips.powerOn();
+        myTVPhilips.setChannelNumber(7);
+        myTVPhilips.upVolume();
+        myTVPhilips.upVolume();
+        myTVPhilips.downVolume();
+        myTVPhilips.mute();
+        myTVPhilips.powerOff();
     }
 
     interface Device {
+        static void setChannel(int channel) {
+        }
+
         void powerOn();
 
         void powerOff();
-
-        static void setChannel(int channel);
 
         void currentChannel();
     }
@@ -41,140 +45,90 @@ public class Lesson58 {
         void mute();
     }
 
-    abstract static class TVDevice implements Device, Volume {
+    interface BadDecision {
+        boolean throwTheWindow();
+    }
+
+    abstract static class TVDevice implements Device, Volume, BadDecision {
         String modelName;
         boolean isOn;
+
+        abstract void getModelName();
     }
 
     static class TV extends TVDevice {
 
-        int currentVolume = 0;
-
-        int currentChanel;
-
+        int volumeLevel;
+        int channelNumber;
+        int maxVolume = 30;
         String modelName;
+        boolean cast;
 
-        int maxVolume;
-
-        boolean isMuted;
-
-        TV(String modelName, int maxVolume) {
-            this.modelName = modelName;
+        TV(int maxVolume, String modelName) {
             this.maxVolume = maxVolume;
+            this.modelName = modelName;
         }
 
-        static void setChannel(int channel) {
+        int getVolumeLevel() {
+            return volumeLevel;
         }
 
-        public int getCurrentVolume() {
-            return currentVolume;
+        int getChannelNumber() {
+            return channelNumber;
         }
 
-        public void setCurrentVolume(int currentVolume) {
-            this.currentVolume = currentVolume;
+        void setChannelNumber(int channelNumber) {
+            this.channelNumber = channelNumber;
+            System.out.println("The channel is changed to " + this.channelNumber + "th.");
         }
 
-        public int getCurrentChanel() {
-            return currentChanel;
-        }
-
-        public void setCurrentChanel(int currentChanel) {
-            this.currentChanel = currentChanel;
-        }
-
-        public String getModelName() {
-            return modelName;
-        }
-
-        public int getMaxVolume() {
-            return maxVolume;
-        }
-
-        public boolean isMuted() {
-            return isMuted;
-        }
-
-        public void setMuted(boolean muted) {
-            isMuted = muted;
-        }
-
+        @Override
         public void powerOn() {
+            isOn = true;
+            System.out.println("Device is turned on");
         }
 
         @Override
         public void powerOff() {
-
+            isOn = false;
+            System.out.println("Device is turned off");
         }
 
         @Override
         public void currentChannel() {
+            System.out.println("The current channel: " + channelNumber);
         }
 
         @Override
         public void upVolume() {
-
+            if (getVolumeLevel() >= 0 && getVolumeLevel() < maxVolume) {
+                volumeLevel++;
+                System.out.println("The volume is up to " + getVolumeLevel());
+            }
         }
 
         @Override
         public void downVolume() {
-
+            if (getVolumeLevel() > 0) {
+                volumeLevel--;
+                System.out.println("The volume is down to " + getVolumeLevel());
+            }
         }
 
         @Override
         public void mute() {
-
+            volumeLevel = 0;
+            System.out.println("Device is muted");
         }
 
-        static class RemoteController extends TVDevice {
+        @Override
+        void getModelName() {
+            System.out.println("Your TV is called: " + modelName);
+        }
 
-            @Override
-            public void powerOn() {
-                this.isOn = true;
-            }
-
-            @Override
-            public void powerOff() {
-                this.isOn = false;
-
-            }
-
-            @Override
-            public void setChannel(int channel) {
-                TV.setChannel(channel);
-            }
-
-            @Override
-            public void currentChannel() {
-                System.out.println("The current chanel: ");
-            }
-
-            @Override
-            public void upVolume() {
-                if (currentVolume < maxVolume) {
-                    if (!isMuted) {
-                        currentVolume++;
-                    } else System.out.println("Device is muted");
-                } else System.out.println("The device already has the max volume level.");
-            }
-
-            @Override
-            public void downVolume() {
-                if (currentVolume > 0) {
-                    currentVolume--;
-                }
-            }
-
-            @Override
-            public void mute() {
-                isMuted = true;
-                System.out.println("Device is muted");
-            }
-
-            public void unMute() {
-                isMuted = false;
-                System.out.println("Device is unmuted");
-            }
-
+        @Override
+        public boolean throwTheWindow() {
+            //TODO
         }
     }
 }
