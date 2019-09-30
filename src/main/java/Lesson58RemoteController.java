@@ -13,6 +13,7 @@ Example of the structure in the requirements.
 "
  */
 public class Lesson58RemoteController {
+
     public static void main(String[] args) {
 
         TV myTVPhilips = new TV(7, "Hooilips");
@@ -24,6 +25,7 @@ public class Lesson58RemoteController {
         myTVPhilips.downVolume();
         myTVPhilips.mute();
         myTVPhilips.powerOff();
+        myTVPhilips.throwTheWindow();
     }
 
     interface Device {
@@ -46,7 +48,7 @@ public class Lesson58RemoteController {
     }
 
     interface BadDecision {
-        boolean throwTheWindow();
+        void throwTheWindow();
     }
 
     abstract static class TVDevice implements Device, Volume, BadDecision {
@@ -63,8 +65,10 @@ public class Lesson58RemoteController {
         int maxVolume = 30;
         String modelName;
         boolean cast;
+        private TV instance;
 
         TV(int maxVolume, String modelName) {
+            instance = this;
             this.maxVolume = maxVolume;
             this.modelName = modelName;
         }
@@ -127,8 +131,9 @@ public class Lesson58RemoteController {
         }
 
         @Override
-        public boolean throwTheWindow() {
-            //TODO
+        public void throwTheWindow() {
+            instance = null;
+            System.out.println("Device is thrown through the window. Object link was erased");
         }
     }
 }
