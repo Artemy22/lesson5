@@ -13,7 +13,6 @@ Example of the structure in the requirements.
 "
  */
 public class Lesson58RemoteController {
-
     public static void main(String[] args) {
 
         TV myTVPhilips = new TV(7, "Hooilips");
